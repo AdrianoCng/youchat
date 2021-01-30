@@ -3,9 +3,6 @@ const message = document.getElementById("msg");
 const chatMessages = document.querySelector(".chat-messages");
 const usersListDOM = document.getElementById("users");
 
-// Utils
-const { formatMessage } = require("../../utils/utils");
-
 // Get username from query string
 const { username } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -69,4 +66,12 @@ const outputUsers = (usersList) => {
     usersListDOM.innerHTML = `
         ${usersList.map((user) => `<li>${user.username}</li>`).join("")}
     `;
+};
+
+const formatMessage = (username, text) => {
+    return {
+        username,
+        text,
+        time: moment().format("h:mm a"),
+    };
 };
