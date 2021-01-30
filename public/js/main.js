@@ -12,7 +12,9 @@ const { username } = Qs.parse(location.search, {
 const socket = io();
 
 // Send username
-socket.emit("user join", username);
+socket.on("connect", () => {
+    socket.emit("user join", username);
+});
 
 // Receiving messages
 socket.on("message", (msg) => {
