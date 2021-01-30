@@ -47,10 +47,6 @@ socket.on("disconnect", () => {
     );
 });
 
-socket.on("reason", (reason) => {
-    outputMsg(formatMessage("Admin", reason));
-});
-
 // DOM manipulation
 const outputMsg = ({ username, text, time }) => {
     const div = document.createElement("div");

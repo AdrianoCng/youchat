@@ -43,8 +43,7 @@ io.on("connection", (socket) => {
             io.emit("message", formatMessage(username, msg));
         });
 
-        socket.on("disconnect", (reason) => {
-            socket.emit("reason", reason);
+        socket.on("disconnect", () => {
             // Remove user from users array
             userLeave(socket.id);
 
