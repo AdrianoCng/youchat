@@ -3,6 +3,9 @@ const message = document.getElementById("msg");
 const chatMessages = document.querySelector(".chat-messages");
 const usersListDOM = document.getElementById("users");
 
+// Utils
+const { formatMessage } = require("../../utils/utils");
+
 // Get username from query string
 const { username } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -39,6 +42,12 @@ socket.on("users list", (usersList) => {
 
 socket.on("disconnect", () => {
     socket.close();
+    outputMsg(
+        formatMessage(
+            "Admin",
+            "You have been disconnected. Please log in again."
+        )
+    );
 });
 
 // DOM manipulation
