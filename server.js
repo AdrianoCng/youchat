@@ -36,6 +36,13 @@ io.on("connection", (socket) => {
         // send users list
         io.emit("users list", getAllUsers());
 
+        socket.on("message", (msg) => {
+            const { username } = getCurrentUser(socket.id);
+
+            // Send message to all users
+            io.emit("message", formatMessage(username, msg));
+        });
+
         socket.on("disconnect", () => {
             // Remove user from users array
             userLeave(socket.id);
@@ -48,13 +55,6 @@ io.on("connection", (socket) => {
             // send updated users list
             io.emit("users list", getAllUsers());
         });
-    });
-
-    socket.on("message", (msg) => {
-        const { username } = getCurrentUser(socket.id);
-
-        // Send message to all users
-        io.emit("message", formatMessage(username, msg));
     });
 });
 
