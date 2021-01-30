@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
         });
 
         socket.on("disconnect", (reason) => {
-            console.log(reason);
+            socket.emit("reason", reason);
             // Remove user from users array
             userLeave(socket.id);
 
