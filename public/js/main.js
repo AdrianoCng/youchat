@@ -37,8 +37,8 @@ socket.on("users list", (usersList) => {
     outputUsers(usersList);
 });
 
-socket.on("error", function () {
-    socket.socket.reconnect();
+socket.on("disconnect", () => {
+    socket.close();
 });
 
 // DOM manipulation
