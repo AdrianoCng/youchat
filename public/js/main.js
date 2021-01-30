@@ -12,9 +12,7 @@ const { username } = Qs.parse(location.search, {
 const socket = io();
 
 // Send username
-socket.on("connect", () => {
-    socket.emit("user join", username);
-});
+socket.emit("user join", username);
 
 // Receiving messages
 socket.on("message", (msg) => {
@@ -37,6 +35,10 @@ form.addEventListener("submit", (event) => {
 // Receiving users list
 socket.on("users list", (usersList) => {
     outputUsers(usersList);
+});
+
+socket.on("error", function () {
+    socket.socket.reconnect();
 });
 
 // DOM manipulation
