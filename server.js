@@ -10,6 +10,9 @@ const {
     getCurrentUser,
     userLeave,
     getAllUsers,
+    addUserTyping,
+    removeUserTyping,
+    getUsersTyping,
 } = require("./utils/users");
 
 const app = express();
@@ -25,6 +28,9 @@ io.on("connection", (socket) => {
     socket.on("user join", (username) => {
         // Add user to users array
         const user = userJoin(socket.id, username);
+
+        // Display typing notification is someone was already typing before client connects
+        socket.emit("typing", getUsersTyping());
 
         socket.emit("message", formatMessage(botName, "Welcome to YouChat!"));
 
@@ -43,9 +49,24 @@ io.on("connection", (socket) => {
             io.emit("message", formatMessage(username, msg));
         });
 
+        // Typing notification
+        socket.on("typing", (typing) => {
+            const { username } = getCurrentUser(socket.id);
+
+            const usersTyping = typing
+                ? addUserTyping(socket.id, username)
+                : removeUserTyping(socket.id);
+
+            socket.broadcast.emit("typing", usersTyping);
+        });
+
         socket.on("disconnect", () => {
             // Remove user from users array
             userLeave(socket.id);
+
+            // Remove user from users typing array to avoid displaying notification in case the users left while still typing
+            const usersTyping = removeUserTyping(socket.id);
+            io.emit("typing", usersTyping);
 
             io.emit(
                 "message",
