@@ -2,6 +2,8 @@ const { capitalize } = require("./utils");
 
 let users = [];
 
+let usersTyping = [];
+
 const userJoin = (id, username) => {
     const user = {
         id,
@@ -29,9 +31,41 @@ const getAllUsers = () => {
     return users;
 };
 
+const addUserTyping = (id, username) => {
+    const user = {
+        id,
+        username,
+    };
+
+    const index = usersTyping.findIndex((user) => user.id === id);
+
+    if (index === -1) {
+        usersTyping.push(user);
+    }
+
+    return usersTyping;
+};
+
+const removeUserTyping = (id) => {
+    const index = usersTyping.findIndex((user) => user.id === id);
+
+    if (index !== -1) {
+        usersTyping.splice(index, 1);
+    }
+
+    return usersTyping;
+};
+
+const getUsersTyping = () => {
+    return usersTyping;
+};
+
 module.exports = {
     userJoin,
     getCurrentUser,
     userLeave,
     getAllUsers,
+    addUserTyping,
+    removeUserTyping,
+    getUsersTyping,
 };

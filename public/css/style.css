@@ -136,6 +136,13 @@ a {
     flex: 1;
 }
 
+#typing-notification {
+    float: left;
+    position: relative;
+    bottom: 25px;
+    left: 15px;
+}
+
 /* Join Page */
 .join-container {
     max-width: 500px;
